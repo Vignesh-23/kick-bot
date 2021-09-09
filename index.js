@@ -6,6 +6,7 @@ const { token } = require('./config.json');
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
+// **COMMANDS**
 // Get the .js files from Commands directory and create a collection(Map) client.commands
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -17,28 +18,19 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
-// When the client is ready, run this code (only once)
-client.once('ready', () => {
-	console.log('Ready!');
-});
+// **EVENTS**
+// Get the .js files from Commands directory and create a collection(Map) client.commands 
+// NOTE: use interaction.client or other discord.js structurte to get client info in the files
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
-// Listen for Interaction and reply
-client.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) return;
-
-	//Dynamically check for which command was executed and execute the corresponding command
-	const command = client.commands.get(interaction.commandName);
-
-	if (!command) return;
-
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+for (const file of eventFiles) {
+	const event = require(`./events/${file}`);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
 	}
-});
-
+}
 
 // Login to Discord with your client's token
 client.login(token);
