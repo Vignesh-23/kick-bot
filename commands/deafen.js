@@ -1,15 +1,15 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 const data = new SlashCommandBuilder()
-    .setName('mute')
-    .setDescription('mute @user <seconds> keeps the specified user server muted for specified number of seconds')
+    .setName('deafen')
+    .setDescription('deafen @user <seconds>  keeps the specified user server deafend for specified number of seconds')
     .addUserOption(option =>
         option.setName('target')
-            .setDescription('user to mute')
+            .setDescription('user to deafen')
             .setRequired(true))
     .addNumberOption(option =>
         option.setName('seconds')
-            .setDescription('Time in seconds the user stays muted (capped at 120 and defaulted at 60)'));
+            .setDescription('Time in seconds the user stays deafend (capped at 120 and defaulted at 60)'));
 
 module.exports = {
 	data: data,
@@ -24,7 +24,7 @@ module.exports = {
             seconds = 60;
         }
 
-        // continuously send mute request for specified number of seconds
+        // continuously send deafen request for specified number of seconds
         const startTime = new Date();
         const stopInterval = setInterval(async () => {
             if (new Date().getTime() - startTime.getTime() > seconds*1000) {
@@ -32,13 +32,13 @@ module.exports = {
             }
             
             try {
-                await targetUser.voice.setMute(true);
+                await targetUser.voice.setDeaf(true);
             } catch(error) {
     
             }
             
         }, 1000);
     
-		await interaction.reply(`Muted ${targetUser.user} for ${seconds} seconds`);
+		await interaction.reply(`Deafened ${targetUser.user} for ${seconds} seconds`);
 	},
 };
