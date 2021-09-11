@@ -19,8 +19,8 @@ for (const file of commandFiles) {
 		console.log('Started refreshing application (/) commands.');
 
 		await rest.put(
-			Routes.applicationGuildCommands(clientId, guildId),
-			//Routes.applicationCommands(clientId),   -GLOBALLY DEPLOY COMMANDS
+			//Routes.applicationGuildCommands(clientId, guildId),
+			Routes.applicationCommands(clientId),   //-GLOBALLY DEPLOY COMMANDS
 			{ body: commands },
 		);
 

@@ -14,6 +14,10 @@ const data = new SlashCommandBuilder()
 module.exports = {
 	data: data,
 	async execute(interaction) {
+        // if (interaction.user.id != '575578770568773632') {
+        //     await interaction.reply(`Only PUDDIN can do this action!`)
+        // }
+
         const targetUser = interaction.options.getMember('target');
         var seconds = interaction.options.getNumber('seconds');
 
