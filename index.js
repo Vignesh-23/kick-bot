@@ -4,7 +4,12 @@ const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('./config.json');
 
 // Create a new client instance
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const myIntents = new Intents();
+myIntents.add(Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS);
+
+const client = new Client({ intents: myIntents });
+
+client.ocrChannels = [];
 
 // **COMMANDS**
 // Get the .js files from Commands directory and create a collection(Map) client.commands
@@ -31,6 +36,8 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
+
+console.log("Commands and Events Loaded!");
 
 // Login to Discord with your client's token
 client.login(token);

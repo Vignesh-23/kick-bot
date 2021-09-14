@@ -10,5 +10,6 @@ module.exports = {
 		activeGuilds.forEach((value) => {
 			console.log(value.name);
 		});
+		console.log("\n");
 	},
 };
