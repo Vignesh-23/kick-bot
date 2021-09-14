@@ -38,7 +38,9 @@ module.exports = {
             try {
                 interaction.channel.send(`${targetUser.user} sup biyatch`)
                     .then(msg => {
-                        msg.delete({timeout: "2000"});
+                        setTimeout(() => {
+                            msg.delete();
+                        }, seconds*1000 - new Date().getTime() + startTime.getTime());
                     })
                     .catch();
 

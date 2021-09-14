@@ -42,7 +42,7 @@ module.exports = {
             }
             
         }, 1000);
-    
+
 		await interaction.reply(`disconnected ${targetUser.user} for ${seconds} seconds`);
 	},
 };

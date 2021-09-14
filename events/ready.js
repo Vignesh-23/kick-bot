@@ -1,8 +1,14 @@
 module.exports = {
 	name: 'ready',
 	once: true,
-	execute(client) {
-		client.user.setActivity("to Vaathi screaming ", {type: "LISTENING"});
+	async execute(client) {
+		client.user.setActivity("Vaathi Screaming ", {type: "LISTENING"});
 		console.log(`Ready! Logged in as ${client.user.tag}`);
+		const activeGuilds = await client.guilds.fetch();
+
+		console.log("\nCurrently active in the guilds");
+		activeGuilds.forEach((value) => {
+			console.log(value.name);
+		});
 	},
 };
