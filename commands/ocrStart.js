@@ -17,7 +17,7 @@ module.exports = {
 
         if(interaction.client.ocrChannels.length == 0) {
             
-            interaction.client.ocrListener = interaction.client.on('messageCreate', async message => {
+            interaction.client.ocrListener = async message => {
                 if (interaction.client.ocrChannels.includes(message.channelId)) {
                     const messageAttachments = message.attachments;
                     if (messageAttachments.size != 0) {
@@ -27,7 +27,7 @@ module.exports = {
                                 console.log(elem.url);
                                 const res = await ocrSpace(elem.url, {apiKey: apiKey, detectOrientation: true, scale: true});
                                 console.log(res.ParsedResults[0].ParsedText);
-                                message.channel.send(`The parsed OCR TEXT is \n ${res.ParsedResults[0].ParsedText}`);
+                                message.reply(`The parsed OCR TEXT is \n ${res.ParsedResults[0].ParsedText}`);
                             } catch (error) {
                                 message.channel.send("Sorry Unexpected error while accessing OCR");
                                 console.log(error);
@@ -37,8 +37,8 @@ module.exports = {
                         
                     }
                 }
-
-            });
+            }
+            interaction.client.on('messageCreate', interaction.client.ocrListener);
             
             interaction.client.ocrChannels.push(targetChannel.id);
         } else if (interaction.client.ocrChannels.includes(targetChannel.id)) {
